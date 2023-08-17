@@ -12,9 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate all wdl using womtool
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: broadinstitute/smartseq2-single-nucleus-multisample
       - name: Run womtools
         run: |
           ./scripts/validate_wdls.sh
+
