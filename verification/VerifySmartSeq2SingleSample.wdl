@@ -1,7 +1,7 @@
 version 1.0
 
-import "../verification/VerifyMetrics.wdl" as VerifyMetrics
-import "../verification/VerifyTasks.wdl" as VerifyTasks
+import "VerifyMetrics.wdl" as VerifyMetrics
+import "VerifyTasks.wdl" as VerifyTasks
 
 workflow VerifySmartSeq2SingleSample {
 
