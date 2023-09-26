@@ -1,6 +1,6 @@
 version 1.0
 
-#import "../../../tasks/skylab/HISAT2.wdl" as HISAT2
+import "tasks/HISAT2.wdl" as HISAT2
 import "tasks/Picard.wdl" as Picard
 import "tasks/RSEM.wdl" as RSEM
 import "tasks/GroupMetricsOutputs.wdl" as GroupQCs
@@ -61,7 +61,7 @@ workflow SmartSeq2SingleSample {
   String quality_control_output_basename = output_name + "_qc"
 
    if( paired_end ) {
-     call HISAT2.HISAT2PairedEnd {
+     call HISAT2.HISAT2 {
        input:
          hisat2_ref = hisat2_ref_index,
          fastq1 = fastq1,
@@ -69,6 +69,7 @@ workflow SmartSeq2SingleSample {
          ref_name = hisat2_ref_name,
          input_id = input_id,
          output_basename = quality_control_output_basename,
+         paired_end = paired_end
      }
   }
   if( !paired_end ) {
