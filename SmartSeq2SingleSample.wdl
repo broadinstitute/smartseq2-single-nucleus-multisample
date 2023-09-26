@@ -1,10 +1,10 @@
 version 1.0
 
-# #import "../../../tasks/skylab/HISAT2.wdl" as HISAT2
-# import "../../../tasks/skylab/Picard.wdl" as Picard
-# import "../../../tasks/skylab/RSEM.wdl" as RSEM
-# import "../../../tasks/skylab/GroupMetricsOutputs.wdl" as GroupQCs
-# import "../../../tasks/skylab/LoomUtils.wdl" as LoomUtils
+#import "../../../tasks/skylab/HISAT2.wdl" as HISAT2
+import "tasks/Picard.wdl" as Picard
+import "tasks/RSEM.wdl" as RSEM
+import "tasks/GroupMetricsOutputs.wdl" as GroupQCs
+import "tasks/LoomUtils.wdl" as LoomUtils
 
 workflow SmartSeq2SingleSample {
   meta {
