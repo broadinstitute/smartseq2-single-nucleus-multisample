@@ -61,7 +61,7 @@ workflow SmartSeq2SingleSample {
   String quality_control_output_basename = output_name + "_qc"
 
    if( paired_end ) {
-     call HISAT2.HISAT2 {
+     call HISAT2.HISAT2PairedEnd {
        input:
          hisat2_ref = hisat2_ref_index,
          fastq1 = fastq1,
@@ -69,7 +69,6 @@ workflow SmartSeq2SingleSample {
          ref_name = hisat2_ref_name,
          input_id = input_id,
          output_basename = quality_control_output_basename,
-         paired_end = paired_end
      }
   }
   if( !paired_end ) {
