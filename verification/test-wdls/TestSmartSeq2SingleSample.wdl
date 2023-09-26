@@ -1,7 +1,7 @@
 version 1.0
 
 
-import "../../../SmartSeq2SingleSample.wdl" as SmartSeq2SingleSample
+import "../../SmartSeq2SingleSample.wdl" as SmartSeq2SingleSample
 import "../../verification/VerifySmartSeq2SingleSample.wdl" as VerifySmartSeq2SingleSample
 # import "../../tasks/broad/Utilities.wdl" as Utilities
 # import "../../tasks/broad/CopyFilesFromCloudToCloud.wdl" as Copy
