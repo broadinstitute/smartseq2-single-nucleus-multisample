@@ -169,7 +169,7 @@ task AggregateSmartSeq2Loom {
         String? species
         String? organ
         String pipeline_version
-        String docker = "us.gcr.io/broad-gotc-prod/pytools:1.0.0-1661263730"
+        String pytools_docker_path
         Int disk = 200
         Int machine_mem_mb = 4000
         Int cpu = 1
@@ -203,7 +203,7 @@ task AggregateSmartSeq2Loom {
     }
 
     runtime {
-      docker: docker
+      docker: pytools_docker_path
       cpu: cpu
       memory: "~{machine_mem_mb} MiB"
       disks: "local-disk ~{disk} HDD"
@@ -300,7 +300,7 @@ task SingleNucleusOptimusLoomOutput {
 task SingleNucleusSmartSeq2LoomOutput {
     input {
         #runtime values
-        String docker = "us.gcr.io/broad-gotc-prod/pytools:1.0.0-1661263730"
+        String pytools_docker_path
 
         Array[File] alignment_summary_metrics
         Array[File] dedup_metrics
@@ -376,7 +376,7 @@ task SingleNucleusSmartSeq2LoomOutput {
     >>>
 
     runtime {
-        docker: docker
+        docker: pytools_docker_path
         cpu: cpu
         memory: "~{machine_mem_mb} MiB"
         disks: "local-disk ~{disk} HDD"

@@ -139,7 +139,7 @@ task StarAlignFastqMultisample {
     File tar_star_reference
 
     # runtime values
-    String docker = "us.gcr.io/broad-gotc-prod/star:1.0.0-2.7.9a-1658781884"
+    String star_docker_path
     Int machine_mem_mb = ceil((size(tar_star_reference, "Gi")) + 6) * 1100
     Int cpu = 16
     # multiply input size by 2.2 to account for output bam file + 20% overhead, add size of reference.
@@ -157,7 +157,7 @@ task StarAlignFastqMultisample {
     fastq2_input_files: "Array of trimmed R2 fastq files containing genomic sequence."
     input_ids: "Array of input ids"
     tar_star_reference: "star reference tarball built against the species that the bam_input is derived from"
-    docker: "(optional) the docker image containing the runtime environment for this task"
+    star_docker_path: "(optional) the docker image containing the runtime environment for this task"
     machine_mem_mb: "(optional) the amount of memory (MiB) to provision for this task"
     cpu: "(optional) the number of cpus to provision for this task"
     disk: "(optional) the amount of disk space (GiB) to provision for this task"
@@ -197,7 +197,7 @@ task StarAlignFastqMultisample {
   >>>
 
   runtime {
-    docker: docker
+    docker: star_docker_path
     memory: "${machine_mem_mb} MiB"
     disks: "local-disk ${disk} SSD"
     disk: disk + " GB" # TES
@@ -647,6 +647,7 @@ task STARGenomeRefVersion {
   input {
     String tar_star_reference
     Int disk = 10
+    String ubuntu_docker_path
   }
 
   meta {
@@ -679,7 +680,7 @@ task STARGenomeRefVersion {
   }
 
   runtime {
-    docker: "gcr.io/gcp-runtimes/ubuntu_16_0_4:latest"
+    docker: ubuntu_docker_path
     memory: "2 GiB"
     disks: "local-disk ${disk} HDD"
     disk: disk + " GB" # TES

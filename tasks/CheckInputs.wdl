@@ -7,6 +7,7 @@ task checkInputArrays {
     Array[String]? input_names
     Array[String] fastq1_input_files
     Array[String] fastq2_input_files
+    String alpine_docker_path =
   }
 
   Int len_input_ids = length(input_ids)
@@ -43,7 +44,7 @@ task checkInputArrays {
   }
 
   runtime {
-    docker: "bashell/alpine-bash:latest"
+    docker: alpine_docker_path
     cpu: 1
     memory: "1 GiB"
     disks: "local-disk ~{disk} HDD"

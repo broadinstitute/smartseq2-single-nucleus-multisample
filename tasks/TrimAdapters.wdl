@@ -9,7 +9,7 @@ task TrimAdapters {
     Array[String] input_ids
 
     #runtime values
-    String docker = "us.gcr.io/broad-gotc-prod/ea-utils:1.0.0-1.04.807-1659990665"
+    String ea_utils_docker_path
     Int machine_mem_mb = 8250
     Int cpu = 1
     Int disk = ceil(2*(size(fastq1_input_files, "Gi") + size(fastq2_input_files, "Gi"))) + 10
@@ -21,7 +21,7 @@ task TrimAdapters {
   }
 
   parameter_meta {
-    docker: "(optional) the docker image containing the runtime environment for this task"
+    ea_utils_docker_path: "(optional) the docker image containing the runtime environment for this task"
     machine_mem_mb: "(optional) the amount of memory (MiB) to provision for this task"
     cpu: "(optional) the number of cpus to provision for this task"
     disk: "(optional) the amount of disk space (GiB) to provision for this task"
@@ -49,7 +49,7 @@ task TrimAdapters {
   >>>
 
   runtime {
-    docker: docker
+    docker: ea_utils_docker_path
     memory: "${machine_mem_mb} MiB"
     disks: "local-disk ${disk} HDD"
     disk: disk + " GB" # TES
