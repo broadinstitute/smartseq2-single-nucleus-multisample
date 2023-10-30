@@ -7,7 +7,7 @@ task checkInputArrays {
     Array[String]? input_names
     Array[String] fastq1_input_files
     Array[String] fastq2_input_files
-    String alpine_docker_path =
+    String alpine_docker_path
   }
 
   Int len_input_ids = length(input_ids)
