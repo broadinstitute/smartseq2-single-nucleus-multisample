@@ -1,0 +1,7 @@
+{
+	"WorkflowUrl": "/pdt656435155bfc8e/inputs/MS_SS2SN/MultiSampleSmartSeq2SingleNucleus_1.0.wdl",
+	"WorkflowInputsUrl": "/pdt656435155bfc8e/inputs/MS_SS2SN/test_inputs/Plumbing/mouse_example_azure.json",
+	"WorkflowInputsUrls": null,
+	"WorkflowOptionsUrl": null,
+	"WorkflowDependenciesUrl": "/pdt656435155bfc8e/inputs/MS_SS2SN/MultiSampleSmartSeq2SingleNucleus_1.0.zip"
+}
