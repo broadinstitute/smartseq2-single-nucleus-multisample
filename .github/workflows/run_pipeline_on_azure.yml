@@ -78,7 +78,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_AKS_NAME --subscription $AZURE_SUBSCRIPTION_ID --file ~/.kube/config
+
     - name: 'Say hello'
       run: echo Hello world
     
@@ -86,3 +86,6 @@ jobs:
       run: |
         az aks get-credentials --resource-group ${AZURE_RESOURCE_GROUP_NAME} --name ${AZURE_AKS_NAME} --subscription ${AZURE_SUBSCRIPTION_ID} --file ~/.kube/config
         kubectl -n coa get svc
+
+    - name: 'Set-up Port Forwarding'
+      run: kubectl port-forward -n coa svc/cromwell 8000:8000
