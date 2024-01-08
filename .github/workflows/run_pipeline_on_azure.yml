@@ -87,5 +87,13 @@ jobs:
         az aks get-credentials --resource-group ${AZURE_RESOURCE_GROUP_NAME} --name ${AZURE_AKS_NAME} --subscription ${AZURE_SUBSCRIPTION_ID} --file ~/.kube/config
         kubectl -n coa get svc
 
-    - name: 'Set-up Port Forwarding'
-      run: kubectl port-forward -n coa svc/cromwell 8000:8000
+    - name: 'Set-up Port Forwarding and Run Cromshell'
+      run: |
+        kubectl port-forward -n coa svc/cromwell 8000:8000 2>&1 &
+        pid=$!
+        echo pid: $pid
+        while ! nc -vz localhost 8000 > /dev/null 2>&1 ; do
+          # echo sleeping
+          sleep 1
+        done
+        echo "Cromwell is up!"
