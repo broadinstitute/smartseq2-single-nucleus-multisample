@@ -24,6 +24,8 @@ env:
   # The tag for the Docker imageAZURE_SUBSCRIPTION_ID="d44cb7d1-184a-4202-b1de-1ffe54218e99"
   AZURE_RESOURCE_GROUP_NAME: dsp-pipeline-dev
   AZURE_AKS_NAME: pdt-a1b950246124be
+  AZURE_SUBSCRIPTION_ID: d44cb7d1-184a-4202-b1de-1ffe54218e99
+
   TAG: ${{ github.event.inputs.image_tag || github.head_ref || github.ref_name }}
 
   # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -76,6 +78,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: 'Connect to Kube'
+    #az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP_NAME --name $AZURE_AKS_NAME --subscription $AZURE_SUBSCRIPTION_ID --file ~/.kube/config
+    - name: 'Say hello'
       run: echo Hello world
+    
+    - name: 'Connect to Kube and Show Pods'
+      run: |
+        az aks get-credentials --resource-group ${AZURE_RESOURCE_GROUP_NAME} --name ${AZURE_AKS_NAME} --subscription ${AZURE_SUBSCRIPTION_ID} --file ~/.kube/config
+        kubectl -n coa get svc
