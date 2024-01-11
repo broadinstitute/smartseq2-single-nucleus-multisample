@@ -89,6 +89,10 @@ jobs:
 
     - name: 'Set-up Port Forwarding and Run Cromshell'
       run: |
+        
+        #install cromshell
+        pip install cromshell
+
         kubectl port-forward -n coa svc/cromwell 8000:8000 2>&1 &
         pid=$!
         echo pid: $pid
@@ -98,10 +102,11 @@ jobs:
         done
         echo "Cromwell is up!"
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
-        #install cromshell
-        pip install cromshell
+        
         #Test run cromshell
         export CROMWELL_URL=localhost:8000
         echo $CROMWELL_URL is the cromwell url
         cromshell status 113556d4-ac73-492e-bf9d-03eb5edcf469
+        
+
         kill $pid
