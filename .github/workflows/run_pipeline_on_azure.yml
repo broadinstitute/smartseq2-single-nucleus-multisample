@@ -91,7 +91,7 @@ jobs:
       run: |
         
         #install cromshell
-        sudo pip install cromshell
+        pip install cromshell
 
         kubectl port-forward -n coa svc/cromwell 8000:8000 2>&1 &
         pid=$!
