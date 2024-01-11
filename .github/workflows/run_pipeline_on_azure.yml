@@ -79,8 +79,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 'Say hello'
-      run: echo Hello world
+    - name: 'Create Release Package'
+      run: |
+        pwd
+        scripts/build_pipeline_release.sh -w MultiSampleSmartSeq2SingleNucleus.wdl -v 1.0 -o release -e dev
     
     - name: 'Connect to Kube and Show Pods'
       run: |
