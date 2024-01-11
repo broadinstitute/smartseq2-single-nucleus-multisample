@@ -108,7 +108,7 @@ jobs:
         echo $CROMWELL_URL is the cromwell url
         sudo ls -lht /home/runner/.cromshell/ || true
         #cromshell_config.json
-        cromshell --cromwell_url localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469 || true
+        cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469 || true
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
         
         kill $pid
