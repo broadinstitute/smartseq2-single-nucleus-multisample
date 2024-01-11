@@ -112,3 +112,5 @@ jobs:
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
         
         kill $pid
+
+        echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
