@@ -97,10 +97,10 @@ jobs:
           sleep 1
         done
         echo "Cromwell is up!"
-        #Test run cromshell - didn't work because cromshell needs to be installed first
         # CROMWELL_URL=localhost:8000
-        # cromshell status 113556d4-ac73-492e-bf9d-03eb5edcf469
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
         #install cromshell
         pip install cromshell
+        #Test run cromshell
+        cromshell status 113556d4-ac73-492e-bf9d-03eb5edcf469
         kill $pid
