@@ -102,5 +102,6 @@ jobs:
         pip install cromshell
         #Test run cromshell
         export CROMWELL_URL=localhost:8000
+        echo $CROMWELL_URL is the cromwell url
         cromshell status 113556d4-ac73-492e-bf9d-03eb5edcf469
         kill $pid
