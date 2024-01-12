@@ -114,8 +114,8 @@ jobs:
         echo $CROMWELL_URL is the cromwell url
 
         echo ZIP contents:
-        unzip -l release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip || true
-        unzip release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip
+        #unzip -l release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip || true
+        unzip release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip -d release/MultiSampleSmartSeq2SingleNucleus || true
         tree release/MultiSampleSmartSeq2SingleNucleus || true
         
         #echo WDL content:
