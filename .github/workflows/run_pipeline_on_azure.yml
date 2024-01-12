@@ -138,12 +138,24 @@ jobs:
         cromshell list
         #wait for the job to start
         sleep 3 
-        # while ! nc -vz localhost 8000 > /dev/null 2>&1 ; do
-        #   # echo sleeping
-        #   sleep 1
-        # done
+        SECONDS=0
+        while true; do
+            status_json=$(cromshell --no_turtle status ss_proto_1)
+            
+            # Use jq to extract the status from the JSON
+            status=$(echo "$status_json" | jq -r '.status')
 
-        CSTATUS=$(cromshell --no_turtle status ss_proto_1)
+            if [[ $status != "Running" && $status != "Submitted" ]]; then
+                break
+            fi
+
+            # Sleep for some time before checking again
+            sleep 30
+        done
+        t=$SECONDS
+        echo "The status is now: $status"
+        printf 'Time taken: %d days, %d minutes\n' "$(( t/86400 ))" "$(( t/60 - 1440*(t/86400) ))"
+        CSTATUS=$status
         echo CSTATUS = $CSTATUS
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         ALL_JOBS=$(curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq )
