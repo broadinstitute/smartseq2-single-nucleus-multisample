@@ -106,7 +106,7 @@ jobs:
         done
         echo "Cromwell is up!"
         #curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
-        cromshell --help
+        # cromshell --help
         cromshell submit --help
         #Run cromshell
         export CROMWELL_URL=http://localhost:8000
