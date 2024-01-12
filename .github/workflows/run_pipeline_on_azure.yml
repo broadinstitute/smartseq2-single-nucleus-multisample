@@ -132,17 +132,26 @@ jobs:
         echo CRUN = $CRUN
         
         tree ~/.cromshell || true
-        #cat ~/.cromshell/${CROMWELL_URL}/ || true
+        
         
         cromshell alias -- -1 ss_proto_1 || true
         cromshell list
-        CSTATUS=$(cromshell status ss_proto_1)
+        #wait for the job to start
+        sleep 3 
+        # while ! nc -vz localhost 8000 > /dev/null 2>&1 ; do
+        #   # echo sleeping
+        #   sleep 1
+        # done
+
+        CSTATUS=$(cromshell --no_turtle status ss_proto_1)
+        echo CSTATUS = $CSTATUS
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
-        curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
+        ALL_JOBS=$(curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq )
         
-        echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+        echo "### Summary of Azure Jobs! :rocket:" >> $GITHUB_STEP_SUMMARY
         echo "### CRUN = $CRUN" >> $GITHUB_STEP_SUMMARY
         echo "### CSTATUS = $CSTATUS" >> $GITHUB_STEP_SUMMARY
+        echo "### ALL_JOBS = $ALL_JOBS" >> $GITHUB_STEP_SUMMARY
         kill $pid
         
     
