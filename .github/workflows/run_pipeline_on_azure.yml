@@ -125,8 +125,8 @@ jobs:
         cd release/MultiSampleSmartSeq2SingleNucleus
 
         ls -lht ~/.cromshell || true
-        ls -lht ./cromshell/ || true
-        
+        ls -lht ./.cromshell || true
+        cat ~/.cromshell/all.workflow.database.tsv || true
         CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdlfail mouse_example_azure.json)
         echo CRUN = $CRUN
         
