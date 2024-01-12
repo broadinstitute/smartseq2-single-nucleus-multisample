@@ -84,7 +84,7 @@ jobs:
         pwd
         scripts/build_pipeline_release.sh -w MultiSampleSmartSeq2SingleNucleus.wdl -v 1.0 -o release -e dev
         ls -lhta release/MultiSampleSmartSeq2SingleNucleus
-        tree -L release || true
+        tree release || true
     
     - name: 'Connect to Kube and Show Pods'
       run: |
@@ -108,11 +108,13 @@ jobs:
         #curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
 
         #Test run cromshell
-        export CROMWELL_URL=localhost:8000
+        export CROMWELL_URL=http://localhost:8000
         echo $CROMWELL_URL is the cromwell url
         #sudo ls -lht /home/runner/.cromshell/ || true
 
-        CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
+        CRUN=$(cromshell --no_turtle submit -w release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.wdl test_inputs/Plumbing/mouse_example_azure.json test_inputs/Plumbing/mouse_example_azure.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.options.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip)
+        CSTATUS=$(cromshell status)
+        #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
         
         echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
