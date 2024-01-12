@@ -112,8 +112,11 @@ jobs:
         export CROMWELL_URL=http://localhost:8000
         echo $CROMWELL_URL is the cromwell url
         #sudo ls -lht /home/runner/.cromshell/ || true
-
-        CRUN=$(cromshell --cromwell_url http://localhost:8000 submit -op release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.wdl test_inputs/Plumbing/mouse_example_azure.json)
+        echo ZIP contents:
+        less release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip
+        cp test_inputs/Plumbing/mouse_example_azure.json release/MultiSampleSmartSeq2SingleNucleus
+        cd release/MultiSampleSmartSeq2SingleNucleus
+        CRUN=$(cromshell --cromwell_url http://localhost:8000 submit -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
         CSTATUS=$(cromshell status)
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
