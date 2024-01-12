@@ -83,6 +83,7 @@ jobs:
       run: |
         pwd
         scripts/build_pipeline_release.sh -w MultiSampleSmartSeq2SingleNucleus.wdl -v 1.0 -o release -e dev
+        ls -lhta release
     
     - name: 'Connect to Kube and Show Pods'
       run: |
@@ -114,6 +115,8 @@ jobs:
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
         
         kill $pid
-
+    
+    - name: 'Write the Summary'
+      run: |
         echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
         echo "### CSTATUS = $CSTATUS" >> $GITHUB_STEP_SUMMARY
