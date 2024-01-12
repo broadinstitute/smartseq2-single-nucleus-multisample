@@ -123,10 +123,13 @@ jobs:
 
         cp test_inputs/Plumbing/mouse_example_azure.json release/MultiSampleSmartSeq2SingleNucleus
         cd release/MultiSampleSmartSeq2SingleNucleus
-        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
+        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdlfail mouse_example_azure.json)
         echo CRUN = $CRUN
-        cat ~/.cromshell/${CROMWELL_URL}/ || true
+        ls -lht ~/.cromshell || true
+        ls -lht ./.cromshell || true
+        #cat ~/.cromshell/${CROMWELL_URL}/ || true
         cromshell alias -- -1 ss_proto_1 || true
+        cromshell list
         CSTATUS=$(cromshell status ss_proto_1)
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
