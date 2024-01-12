@@ -106,13 +106,13 @@ jobs:
         done
         echo "Cromwell is up!"
         #curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
-
-        #Test run cromshell
+        cromshell submit --help
+        #Run cromshell
         export CROMWELL_URL=http://localhost:8000
         echo $CROMWELL_URL is the cromwell url
         #sudo ls -lht /home/runner/.cromshell/ || true
 
-        CRUN=$(cromshell --no_turtle submit release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.wdl test_inputs/Plumbing/mouse_example_azure.json test_inputs/Plumbing/mouse_example_azure.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.options.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip)
+        CRUN=$(cromshell --no_turtle submit release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.wdl test_inputs/Plumbing/mouse_example_azure.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.options.json release/MultiSampleSmartSeq2SingleNucleus/MultiSampleSmartSeq2SingleNucleus_1.0.zip)
         CSTATUS=$(cromshell status)
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq
