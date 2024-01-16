@@ -128,7 +128,7 @@ jobs:
         tree ~/.cromshell || true
         cat ~/.cromshell/all.workflow.database.tsv || true
         
-        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json_fail -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
+        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
         echo CRUN = $CRUN
         
         tree ~/.cromshell || true
