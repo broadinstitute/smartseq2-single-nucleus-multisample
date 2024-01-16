@@ -128,7 +128,7 @@ jobs:
         tree ~/.cromshell || true
         cat ~/.cromshell/all.workflow.database.tsv || true
         
-        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
+        CRUN=$(cromshell --no_turtle --cromwell_url http://localhost:8000 submit --no-validation -op MultiSampleSmartSeq2SingleNucleus_1.0.options.json_fail -d MultiSampleSmartSeq2SingleNucleus_1.0.zip MultiSampleSmartSeq2SingleNucleus_1.0.wdl mouse_example_azure.json)
         echo CRUN = $CRUN
         
         tree ~/.cromshell || true
@@ -150,20 +150,26 @@ jobs:
             fi
 
             # Sleep for some time before checking again
-            sleep 30
+            sleep 300
         done
         t=$SECONDS
         echo "The status is now: $status"
         printf 'Time taken: %d days, %d minutes\n' "$(( t/86400 ))" "$(( t/60 - 1440*(t/86400) ))"
         CSTATUS=$status
+        WID=$ss_proto_1
         echo CSTATUS = $CSTATUS
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         ALL_JOBS=$(curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq )
         
         echo "### Summary of Azure Jobs! :rocket:" >> $GITHUB_STEP_SUMMARY
-        echo "### CRUN = $CRUN" >> $GITHUB_STEP_SUMMARY
-        echo "### CSTATUS = $CSTATUS" >> $GITHUB_STEP_SUMMARY
-        echo "### ALL_JOBS = $ALL_JOBS" >> $GITHUB_STEP_SUMMARY
+        echo "### Azure Cromwell Job Submitted $CRUN" >> $GITHUB_STEP_SUMMARY
+        echo "### Job Summary " >> $GITHUB_STEP_SUMMARY
+        echo "| Name | Value |" >> $GITHUB_STEP_SUMMARY
+        echo "| ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
+        echo "| WorkflowID | $WID |" >> $GITHUB_STEP_SUMMARY
+        echo "| Status | $CSTATUS |" >> $GITHUB_STEP_SUMMARY
+        echo "| Total Runtime (seconds) | $t |" >> $GITHUB_STEP_SUMMARY
+        echo "### All Azure Jobs (Running/Pending) = $ALL_JOBS" >> $GITHUB_STEP_SUMMARY
         kill $pid
         
     
