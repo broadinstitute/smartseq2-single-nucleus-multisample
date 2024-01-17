@@ -156,7 +156,7 @@ jobs:
         echo "The status is now: $status"
         printf 'Time taken: %d days, %d minutes\n' "$(( t/86400 ))" "$(( t/60 - 1440*(t/86400) ))"
         CSTATUS=$status
-        WID=$ss_proto_1
+        
         echo CSTATUS = $CSTATUS
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         ALL_JOBS=$(curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq )
@@ -166,7 +166,7 @@ jobs:
         echo "### Job Summary " >> $GITHUB_STEP_SUMMARY
         echo "| Name | Value |" >> $GITHUB_STEP_SUMMARY
         echo "| ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
-        echo "| WorkflowID | $WID |" >> $GITHUB_STEP_SUMMARY
+        echo "| Workflow Alias | ss_proto_1 |" >> $GITHUB_STEP_SUMMARY
         echo "| Status | $CSTATUS |" >> $GITHUB_STEP_SUMMARY
         echo "| Total Runtime (seconds) | $t |" >> $GITHUB_STEP_SUMMARY
         echo "### All Azure Jobs (Running/Pending) = $ALL_JOBS" >> $GITHUB_STEP_SUMMARY
