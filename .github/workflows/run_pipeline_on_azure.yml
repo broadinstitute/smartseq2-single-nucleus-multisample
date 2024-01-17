@@ -15,12 +15,6 @@ on:
 
 env:
   PROJECT_NAME: MultiSample SmartSeq2 Single Nucleus
-  # Github repo name
-#   REPOSITORY_NAME: ${{ github.event.repository.name }}
-#   # Region-specific Google Docker repository where GOOGLE_PROJECT/REPOSITORY_NAME can be found
-#   DOCKER_REGISTRY: us.gcr.io
-#   GCR_PATH: broad-gotc-prod/zcall
-#   ACR_PATH: zcall
   # The tag for the Docker imageAZURE_SUBSCRIPTION_ID="d44cb7d1-184a-4202-b1de-1ffe54218e99"
   AZURE_RESOURCE_GROUP_NAME: dsp-pipeline-dev
   AZURE_AKS_NAME: pdt-a1b950246124be
@@ -30,40 +24,6 @@ env:
 
   # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # The job that builds our container
-#   build-for-gcr:
-#     runs-on: ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: 3rd-party-tools/zcall
-#     # Map a step output to a job output
-#     outputs:
-#       imagePath: ${{ steps.saveImagePath.outputs.url }}
-#     steps:
-#     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#     - uses: actions/checkout@v3
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag ${DOCKER_REGISTRY}/${GCR_PATH}:${TAG}
-#     - name: Check working directory'
-#       run: |
-#         echo "Current directory: "
-#         pwd
-#         ls -lht
-#     # Save the image path to an output
-#     - id: 'saveImagePath'
-#       run: echo "url=${DOCKER_REGISTRY}/${GCR_PATH}:${TAG}" >> $GITHUB_OUTPUT
-#     # Log into the Google Docker registry
-#     - id: 'Auth'
-#       name: Login to GCR
-#       uses: docker/login-action@v2
-#       with:
-#         registry: ${{ env.DOCKER_REGISTRY }}
-#         username: _json_key
-#         password: ${{ secrets.GCR_CI_KEY }}
-#     # Push the image to the Google Docker registry
-#     - name: Push image
-#       run: "docker push ${DOCKER_REGISTRY}/${GCR_PATH}:${TAG}"
-
   run-on-azure:
     runs-on: ubuntu-latest
     # defaults:
@@ -161,9 +121,10 @@ jobs:
         #CSTATUS=$(cromshell --cromwell_url http://localhost:8000 status 113556d4-ac73-492e-bf9d-03eb5edcf469)
         ALL_JOBS=$(curl -s -X POST "http://localhost:8000/api/workflows/v1/query" -H "accept: application/json" -H "Content-Type: application/json" -d "[{\"status\":\"Running\"},{\"status\":\"Submitted\"}]" | jq )
         
-        echo "### Summary of Azure Jobs! :rocket:" >> $GITHUB_STEP_SUMMARY
+        #Print Summary in Github UI
+        echo "### :rocket: Summary of Azure Jobs :rocket:" >> $GITHUB_STEP_SUMMARY
         echo "### Azure Cromwell Job Submitted $CRUN" >> $GITHUB_STEP_SUMMARY
-        echo "### Job Summary " >> $GITHUB_STEP_SUMMARY
+        echo "### Job Details " >> $GITHUB_STEP_SUMMARY
         echo "| Name | Value |" >> $GITHUB_STEP_SUMMARY
         echo "| ----------- | ----------- |" >> $GITHUB_STEP_SUMMARY
         echo "| Workflow Alias | ss_proto_1 |" >> $GITHUB_STEP_SUMMARY
